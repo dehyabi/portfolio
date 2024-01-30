@@ -6,7 +6,7 @@ function App() {
     <div className="App">
     <h3>Portfolio of Dehya Qalbi</h3>
 
-    <img src={uc_img} />
+    <img src={uc_img} alt='under construction'/>
     <p>Sorry, this website is under construction</p>
 
     </div>
