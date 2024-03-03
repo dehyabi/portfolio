@@ -60,6 +60,10 @@ body {
  color: white;
 }
 
+svg:hover {
+ fill: cyan;
+}
+
 @media (max-width: 350px) or (max-height: 450px) {
  .dehya-summary-wrapper {
   height: 600px;

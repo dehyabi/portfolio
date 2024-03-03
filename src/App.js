@@ -32,15 +32,15 @@ function App() {
 
   
     <div className='right-sidebar p-1 py-3 me-3'>
-     <div><Home fillColor='white' /></div>
+     <div><a href='https://dehyabi.netlify.app' target='_blank' rel='noreferrer'><Home fillColor='white' /></a></div>
      <div className='text-center vertical-line'>|</div>
-     <div><Linkedin fillColor='white' /></div>
+     <div><a href='https://linkedin.com/in/dehyabi' target='_blank' rel='noreferrer'><Linkedin fillColor='white' /></a></div>
      <div className='text-center vertical-line'>|</div>
-     <div><Github fillColor='white' /></div>
+     <div><a href='https://github.com/dehyabi' target='_blank' rel='noreferrer'><Github fillColor='white' /></a></div>
      <div className='text-center vertical-line'>|</div>
-     <div><Instagram fillColor='white' /></div>
+     <div><a href='https://instagram.com/dehyabi' target='_blank' rel='noreferrer'><Instagram fillColor='white' /></a></div>
      <div className='text-center vertical-line'>|</div>
-     <div><Youtube fillColor='white' /></div>
+     <div><a href='https://youtube.com/@dehyabi' target='_blank' rel='noreferrer'><Youtube fillColor='white' /></a></div>
     </div>
 
       </div>
