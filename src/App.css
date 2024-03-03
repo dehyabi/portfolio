@@ -46,6 +46,20 @@ body {
  opacity: 0.75;
 }
 
+
+.right-sidebar {
+ position: fixed;
+ right: 0;
+ top: 50%;
+ transform: translate(0, -50%);
+ border-radius: 25px;
+ background-color: green;
+}
+
+.vertical-line {
+ color: white;
+}
+
 @media (max-width: 350px) or (max-height: 450px) {
  .dehya-summary-wrapper {
   height: 600px;

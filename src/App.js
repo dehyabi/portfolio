@@ -1,6 +1,11 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import profile_nobg from './Components/Assets/profile-nobg.png';
+import Home from './Components/homeIcon';
+import Linkedin from './Components/linkedinIcon';
+import Github from './Components/githubIcon';
+import Instagram from './Components/instagramIcon';
+import Youtube from './Components/youtubeIcon';
 
 function App() {
   return (
@@ -24,10 +29,28 @@ function App() {
       </div>
       <div className='col-md dehya-photo-wrapper p-0'>
        <img className='dehya-photo' src={profile_nobg} />
+
+  
+    <div className='right-sidebar p-1 py-3 me-3'>
+     <div><Home fillColor='white' /></div>
+     <div className='text-center vertical-line'>|</div>
+     <div><Linkedin fillColor='white' /></div>
+     <div className='text-center vertical-line'>|</div>
+     <div><Github fillColor='white' /></div>
+     <div className='text-center vertical-line'>|</div>
+     <div><Instagram fillColor='white' /></div>
+     <div className='text-center vertical-line'>|</div>
+     <div><Youtube fillColor='white' /></div>
+    </div>
+
       </div>
      </div>
     </div>
-    </>
+
+
+    
+
+  </>
   );
 }
 
