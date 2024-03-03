@@ -12,6 +12,10 @@ body {
  position: relative;
 }
 
+.dehya-summary-wrapper {
+ height: 100vh;
+}
+
 .dehya-photo {
  width: 100%;
  position: absolute;
@@ -42,35 +46,13 @@ body {
  opacity: 0.75;
 }
 
-@media (max-width: 1024px) and (rgb(152, 251, 152)-height: 769px){
- .dehya-photo-wrapper {
-  height: 700px;
- }
-}
-
-@media (max-width: 767px) {
- .dehya-summary-wrapper, .dehya-photo-wrapper {
-  height: 500px;
- }
-}
-
-@media (max-height: 500px) {
- .dehya-photo-wrapper {
-  height: 600px;
- }
- .dehya-photo {
-  width: 70%;
-  margin-left: 15%;
- }
-}
-
-@media (max-width: 350px) {
+@media (max-width: 350px) or (max-height: 450px) {
  .dehya-summary-wrapper {
   height: 600px;
  }
 
  .dehya-photo-wrapper {
-  height: 350px;
+  height: 700px;
  }
 
  .dehya {
