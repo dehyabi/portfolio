@@ -11,7 +11,7 @@ function App() {
   return (
 
     <>
-    <div className="section-1 container-fluid">
+    <div className="container-fluid">
      <div className='row'>
       <div className='col-md dehya-summary-wrapper d-flex justify-content-center align-items-center'>
 	<div className='dehya-summary'>
@@ -24,7 +24,7 @@ function App() {
              A full-stack developer with two years of professional experience specializing in web development, project management, agile methodology, and quality assurance testing. Adept at coordinating effectively with development teams, clients, and non-technical stakeholders to execute complex web development projects.
 	  </p>
 
-	  <button className='pf-button mt-3'><h2 className='p-2 px-3 pb-0'>PORTFOLIO</h2></button>
+	  <a href='#portfolio'><button className='pf-button mt-3'><h2 className='p-2 px-3 pb-0'>PORTFOLIO</h2></button></a>
 	</div>
       </div>
       <div className='col-md dehya-photo-wrapper p-0'>
@@ -45,10 +45,13 @@ function App() {
 
       </div>
      </div>
+       <div id='portfolio' className='row'>
+        <div className='col dehya-portfolio-wrapper pt-5'>
+         <h1 className='text-center'>PORTFOLIO</h1>
+	</div>
+       </div>
     </div>
 
-
-    
 
   </>
   );

@@ -2,10 +2,6 @@ body {
  overflow-x: hidden;
 }
 
-.section-1 {
- height: 100vh;
-}
-
 .dehya-photo-wrapper {
  background-color: rgb(220, 220, 220);
  height: 100vh;
@@ -43,7 +39,7 @@ body {
 }
 
 .pf-button:hover {
- opacity: 0.75;
+ border: 3px solid cyan;
 }
 
 
@@ -64,12 +60,13 @@ svg:hover {
  fill: cyan;
 }
 
-@media (max-width: 350px) or (max-height: 450px) {
- .dehya-summary-wrapper {
-  height: 600px;
- }
+.dehya-portfolio-wrapper {
+ height: 100vh;
+ background-color: yellow;
+}
 
- .dehya-photo-wrapper {
+@media (max-width: 350px) or (max-height: 450px) {
+ .dehya-summary-wrapper, .dehya-photo-wrapper {
   height: 700px;
  }
 
@@ -77,5 +74,6 @@ svg:hover {
   font-size: 15px;
  }
 }
+
 
 
