@@ -1,38 +1,81 @@
-.App {
-  text-align: center;
+body {
+ overflow-x: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.section-1 {
+ height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.dehya-photo-wrapper {
+ background-color: rgb(220, 220, 220);
+ height: 100vh;
+ position: relative;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.dehya-photo {
+ width: 100%;
+ position: absolute;
+ bottom: 0;
 }
 
-.App-link {
-  color: #61dafb;
+.dehya-summary {
+ max-width: 80%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.dq {
+ color: green;
 }
+
+.dehya {
+ background-color: green;
+ color: white;
+}
+
+.pf-button {
+ background-color: green;
+ border: none;
+ color: white;
+ border-radius: 30px;
+}
+
+.pf-button:hover {
+ opacity: 0.75;
+}
+
+@media (max-width: 1024px) and (rgb(152, 251, 152)-height: 769px){
+ .dehya-photo-wrapper {
+  height: 700px;
+ }
+}
+
+@media (max-width: 767px) {
+ .dehya-summary-wrapper, .dehya-photo-wrapper {
+  height: 500px;
+ }
+}
+
+@media (max-height: 500px) {
+ .dehya-photo-wrapper {
+  height: 600px;
+ }
+ .dehya-photo {
+  width: 70%;
+  margin-left: 15%;
+ }
+}
+
+@media (max-width: 350px) {
+ .dehya-summary-wrapper {
+  height: 600px;
+ }
+
+ .dehya-photo-wrapper {
+  height: 350px;
+ }
+
+ .dehya {
+  font-size: 15px;
+ }
+}
+
+
