@@ -26,7 +26,7 @@ function App() {
 	</div>
       </div>
       <div className='col-md dehya-photo-wrapper p-0'>
-       <img className='dehya-photo' src={profile_nobg} alt='dehya-photo' />
+       <img className='dehya-photo' src={profile_nobg} alt='Dehya Qalbi' />
 
       <RightSidebar />
     
