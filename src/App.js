@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import profile_nobg from './Components/Assets/profile-nobg.png';
 import RightSidebar from './Components/rightSidebar';
 import Portfolio from './Components/Portfolio';
+import Footer from './Components/Footer';
 
 function App() {
   return (
@@ -33,6 +34,8 @@ function App() {
      </div>
     
       <Portfolio />
+      
+      <Footer />
 	
      </div>
 

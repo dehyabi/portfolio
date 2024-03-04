@@ -1,5 +1,6 @@
 body {
  overflow-x: hidden;
+ position: relative;
 }
 
 .dehya-photo-wrapper {
@@ -112,6 +113,23 @@ svg:hover {
  width: 17px;
 }
 
+.footer-wrapper {
+ background-color: cyan;
+}
+
+footer {
+ opacity: 0.5;
+ position: absolute;
+ top: 100%;
+ bottom: 0;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ width: 100%;
+ text-align: center;
+ margin-top: 30px;
+ padding-bottom: 40px;
+}
+
 @media (max-width: 350px) or (max-height: 450px) {
  .dehya-summary-wrapper, .dehya-photo-wrapper{
   height: 700px;
@@ -125,5 +143,11 @@ svg:hover {
 @media (max-width: 400px) or (max-height: 450px) {
  .dehya-portfolio-wrapper{
   height: 1100px;
+ }
+}
+
+@media (max-width: 767px) {
+ .pf-right {
+  margin-top: 30px;
  }
 }

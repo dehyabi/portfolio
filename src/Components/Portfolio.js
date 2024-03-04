@@ -14,7 +14,7 @@ export default function Portfolio () {
  <h1 className='portfolio text-center p-3 mb-5'>PORTFOLIO</h1>
  
   <div className='row'>
-   <div className='col-md portfolio-left p-0 pt-4'>
+   <div className='col-md portfolio-left p-0 pt-2'>
    <div>
     <a href='https://blackwood.id' target='_blank' rel='noreferrer'>
     <img className='pf-left' src={Blackwood} alt='Blackwood' />
@@ -29,7 +29,7 @@ export default function Portfolio () {
 </div>
    </div>
 
-   <div className='col-md portfolio-right p-0 pt-4'>
+   <div className='col-md portfolio-right p-0 pt-2'>
    <div>
     <a href='https://dehya-notes-fe.netlify.app' target='_blank' rel='noreferrer'>
     <img className='pf-right' src={DehyaNotes} alt='Notes App' />
