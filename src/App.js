@@ -1,18 +1,15 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import profile_nobg from './Components/Assets/profile-nobg.png';
-import Home from './Components/homeIcon';
-import Linkedin from './Components/linkedinIcon';
-import Github from './Components/githubIcon';
-import Instagram from './Components/instagramIcon';
-import Youtube from './Components/youtubeIcon';
+import RightSidebar from './Components/rightSidebar';
+import Portfolio from './Components/Portfolio';
 
 function App() {
   return (
 
     <>
     <div className="container-fluid">
-     <div className='row'>
+     <div id='home' className='row'>
       <div className='col-md dehya-summary-wrapper d-flex justify-content-center align-items-center'>
 	<div className='dehya-summary'>
          <h2>HI THERE!</h2>
@@ -30,27 +27,14 @@ function App() {
       <div className='col-md dehya-photo-wrapper p-0'>
        <img className='dehya-photo' src={profile_nobg} />
 
-  
-    <div className='right-sidebar p-1 py-3 me-3'>
-     <div><a href='https://dehyabi.netlify.app' target='_blank' rel='noreferrer'><Home fillColor='white' /></a></div>
-     <div className='text-center vertical-line'>|</div>
-     <div><a href='https://linkedin.com/in/dehyabi' target='_blank' rel='noreferrer'><Linkedin fillColor='white' /></a></div>
-     <div className='text-center vertical-line'>|</div>
-     <div><a href='https://github.com/dehyabi' target='_blank' rel='noreferrer'><Github fillColor='white' /></a></div>
-     <div className='text-center vertical-line'>|</div>
-     <div><a href='https://instagram.com/dehyabi' target='_blank' rel='noreferrer'><Instagram fillColor='white' /></a></div>
-     <div className='text-center vertical-line'>|</div>
-     <div><a href='https://youtube.com/@dehyabi' target='_blank' rel='noreferrer'><Youtube fillColor='white' /></a></div>
-    </div>
-
+      <RightSidebar />
+    
       </div>
      </div>
-       <div id='portfolio' className='row'>
-        <div className='col dehya-portfolio-wrapper pt-5'>
-         <h1 className='text-center'>PORTFOLIO</h1>
-	</div>
-       </div>
-    </div>
+    
+      <Portfolio />
+	
+     </div>
 
 
   </>

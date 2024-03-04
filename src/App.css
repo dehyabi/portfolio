@@ -39,7 +39,7 @@ body {
 }
 
 .pf-button:hover {
- border: 3px solid cyan;
+ opacity: 0.75;
 }
 
 
@@ -62,7 +62,12 @@ svg:hover {
 
 .dehya-portfolio-wrapper {
  height: 100vh;
- background-color: yellow;
+}
+
+.portfolio {
+ border: 1px dotted black;
+ width: 60%;
+ margin-left: 20%;
 }
 
 @media (max-width: 350px) or (max-height: 450px) {
