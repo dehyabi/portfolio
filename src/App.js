@@ -10,7 +10,7 @@ function App() {
     <>
     <div className="container-fluid">
      <div id='home' className='row'>
-      <div className='col-md dehya-summary-wrapper d-flex justify-content-center align-items-center'>
+      <div className='col-md dehya-summary-wrapper d-flex justify-content-center align-items-center p-0'>
 	<div className='dehya-summary'>
          <h2>HI THERE!</h2>
          <h1>I'M <span className='dq'>DEHYA QALBI</span></h1>
@@ -25,7 +25,7 @@ function App() {
 	</div>
       </div>
       <div className='col-md dehya-photo-wrapper p-0'>
-       <img className='dehya-photo' src={profile_nobg} />
+       <img className='dehya-photo' src={profile_nobg} alt='dehya-photo' />
 
       <RightSidebar />
     

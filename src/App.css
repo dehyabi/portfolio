@@ -10,6 +10,7 @@ body {
 
 .dehya-summary-wrapper {
  height: 100vh;
+ background-color: rgb(245, 245, 245);
 }
 
 .dehya-photo {
@@ -62,6 +63,7 @@ svg:hover {
 
 .dehya-portfolio-wrapper {
  height: 100vh;
+ background-color: rgb(245, 245, 245);
 }
 
 .portfolio {
@@ -70,8 +72,48 @@ svg:hover {
  margin-left: 20%;
 }
 
+.portfolio-left {
+}
+
+.pf-left, .pf-right {
+ max-width: 80%;
+ margin-left: 10%;
+ transition: transform .2s;
+}
+
+.pf-left:hover, .pf-right:hover {
+ transform: scale(1.2);
+}
+
+.portfolio-right {
+}
+
+.tech-stack {
+ width: 25px;
+}
+
+.laravel-icon {
+ width: 18px;
+}
+
+.mysql-icon {
+ width: 28px;
+}
+
+.bootstrap-icon {
+ width: 20px;
+}
+
+.react-icon {
+ width: 20px;
+}
+
+.nodejs-icon {
+ width: 17px;
+}
+
 @media (max-width: 350px) or (max-height: 450px) {
- .dehya-summary-wrapper, .dehya-photo-wrapper {
+ .dehya-summary-wrapper, .dehya-photo-wrapper{
   height: 700px;
  }
 
@@ -80,5 +122,8 @@ svg:hover {
  }
 }
 
-
-
+@media (max-width: 400px) or (max-height: 450px) {
+ .dehya-portfolio-wrapper{
+  height: 1100px;
+ }
+}
