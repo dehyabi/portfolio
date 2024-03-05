@@ -130,6 +130,19 @@ footer {
  padding-bottom: 40px;
 }
 
+a {
+ text-decoration: none !important;
+ color: rgb(50, 50, 50) !important;
+}
+
+a:hover {
+ opacity: 0.75;
+}
+
+.dq-logo {
+ width: 30px;
+}
+
 @media (max-width: 350px) or (max-height: 450px) {
  .dehya-summary-wrapper, .dehya-photo-wrapper{
   height: 700px;
