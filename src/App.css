@@ -130,13 +130,13 @@ footer {
  padding-bottom: 40px;
 }
 
-a {
+footer a, .tech-stack-link a {
  text-decoration: none !important;
  color: rgb(50, 50, 50) !important;
 }
 
-a:hover {
- opacity: 0.75;
+footer a:hover, .tech-stack-link a:hover, .tech-stack-link img:hover {
+ opacity: 0.75 !important;
 }
 
 .dq-logo {

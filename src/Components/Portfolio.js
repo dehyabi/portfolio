@@ -21,7 +21,7 @@ export default function Portfolio () {
 
    </a></div>
 
-   <div className='text-center mt-2'><a href='https://blackwood.id' target='_blank' rel='noreferrer'>Blackwood</a> | 
+   <div className='text-center mt-2 tech-stack-link'><a href='https://blackwood.id' target='_blank' rel='noreferrer'>Blackwood</a> | 
 	
 <span> <img className='tech-stack me-2 laravel-icon' src={Laravel} alt='Laravel Icon' title='Laravel' /></span> 
 <span><img className='tech-stack me-2 mysql-icon' src={Mysql} alt='MySQL Icon' title='MySQL' /></span> 
@@ -35,7 +35,7 @@ export default function Portfolio () {
     <img className='pf-right' src={DehyaNotes} alt='Notes App' />
 
    </a></div>
-   <div className='text-center mt-2'><a href='https://dehya-notes-fe.netlify.app' target='_blank' rel='noreferrer'>Notes App</a> |
+   <div className='text-center mt-2 tech-stack-link'><a href='https://dehya-notes-fe.netlify.app' target='_blank' rel='noreferrer'>Notes App</a> |
 
 <span> <img className='tech-stack me-2 react-icon' src={React} alt='React Icon' title='React'/></span> 
 <span><img className='tech-stack me-2 nodejs-icon' src={Nodejs} alt='NodeJS Icon' title='NodeJS' /></span> 
