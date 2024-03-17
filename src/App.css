@@ -63,7 +63,7 @@ svg:hover {
 }
 
 .dehya-portfolio-wrapper {
- height: 100vh;
+ min-height: 100vh;
  background-color: rgb(245, 245, 245);
 }
 
@@ -95,6 +95,10 @@ svg:hover {
 
 .laravel-icon {
  width: 18px;
+}
+
+.html-icon, .css-icon {
+ width: 22px;
 }
 
 .mysql-icon {
@@ -155,7 +159,7 @@ footer a:hover, .tech-stack-link a:hover, .tech-stack-link img:hover {
 
 @media (max-width: 400px) or (max-height: 450px) {
  .dehya-portfolio-wrapper{
-  height: 1100px;
+  min-height: 1100px;
  }
 }
 

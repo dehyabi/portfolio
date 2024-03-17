@@ -1,4 +1,4 @@
-import profile_nobg from './Assets/profile-nobg.png'
+import profile_nobg from './Assets/profile-nobg.webp'
 
 export default function Home () {
  return (
