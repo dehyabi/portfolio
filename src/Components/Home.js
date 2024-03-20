@@ -6,8 +6,7 @@ export default function Home () {
           <p className='mt-3'>
              A full-stack developer with two years of professional experience specializing in web development, project management, agile methodology, and quality assurance testing. Adept
  at coordinating effectively with development teams, clients,
-and non-technical stakeholders to execute complex web developm
-ent projects.
+and non-technical stakeholders to execute complex web development projects.
           </p>                                                
           <a href='#portfolio'><button className='pf-button mt
 -3'><h2 className='p-2 px-3 pb-0'>PORTFOLIO</h2></button></a>
