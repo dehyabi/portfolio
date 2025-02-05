@@ -25,10 +25,11 @@
     "noImplicitThis": true,
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./src/*"],
+      "@/styles/*": ["./src/styles/*"],
       "@/core/*": ["packages/core/*"],
       "@/ui/*": ["packages/ui/*"],
-      "@/utils/*": ["packages/utils/*"],
-      "@/apps/*": ["apps/*"]
+      "@/utils/*": ["packages/utils/*"]
     },
     "plugins": [
       {
