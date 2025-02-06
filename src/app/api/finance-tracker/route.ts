@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { protectedRoute } from '@/lib/auth/middleware';
+import { checkRouteSecret } from '@/lib/auth/middleware';
 
 export async function GET(request: NextRequest) {
-  // Apply token protection
-  const authResult = await protectedRoute(request);
+  // Check route secret
+  const authResult = checkRouteSecret(request);
   if (authResult) return authResult;
 
   try {
