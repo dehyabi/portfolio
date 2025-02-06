@@ -2,7 +2,7 @@ export interface FinanceEntry {
   id?: string;
   amount: number;
   category: string;
-  date: Date;
+  date: Date | string;
   description?: string;
   type: 'income' | 'expense';
 }

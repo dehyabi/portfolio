@@ -62,13 +62,6 @@ export class MongoDBConnectionManager {
 
       const db = client.db(dbName);
 
-      const adminDb = client.db().admin();
-      const serverStatus = await adminDb.serverStatus();
-      console.log('MongoDB Server Status:', {
-        version: serverStatus.version,
-        uptime: serverStatus.uptime
-      });
-
       this.connection = { client, db };
       return this.connection;
     } catch (error) {
@@ -91,8 +84,9 @@ export class MongoDBConnectionManager {
   async testConnection(): Promise<boolean> {
     try {
       const connection = await this.connect();
-      const pingResult = await connection.db.command({ ping: 1 });
-      console.log('MongoDB ping successful:', pingResult);
+      // Simple ping without serverStatus
+      await connection.db.command({ ping: 1 });
+      console.log('MongoDB ping successful');
       return true;
     } catch (error) {
       console.error('MongoDB connection test failed:', error);
