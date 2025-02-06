@@ -2,10 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { FinanceTrackerRepository } from '@/lib/repositories/finance-tracker.repository';
 import { FinanceEntry } from '@/lib/interfaces/finance-tracker.interface';
 import { MongoDBConnectionManager } from '@/lib/mongodb';
+import { checkRouteSecret } from '@/lib/auth/middleware';
 
 const repository = new FinanceTrackerRepository();
 
 export async function POST(request: NextRequest) {
+  // Check route secret first
+  const authResult = checkRouteSecret(request);
+  if (authResult) return authResult;
+
   try {
     // Log the incoming request body for debugging
     const rawBody = await request.text();
