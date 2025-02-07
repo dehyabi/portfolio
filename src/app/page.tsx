@@ -18,6 +18,7 @@ export default function HomePage() {
     "MySQL",
     "PostgreSQL",
     "Supabase",
+    "Redis",
     "Go",
     "Git",
   ];
