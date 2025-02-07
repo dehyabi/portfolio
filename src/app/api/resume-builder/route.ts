@@ -7,11 +7,7 @@ const repository = new ResumeBuilderRepository();
 
 export async function GET(request: NextRequest) {
   try {
-    // Check route secret first
-    const authResult = checkRouteSecret(request);
-    if (authResult) return authResult;
-
-    // Fetch resumes based on query parameters
+    // Removed route secret check for public access
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
 
@@ -28,7 +24,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  // Check route secret first
+  // Keep route secret check for POST method
   const authResult = checkRouteSecret(request);
   if (authResult) return authResult;
 
