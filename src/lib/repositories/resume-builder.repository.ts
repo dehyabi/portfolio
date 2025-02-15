@@ -38,8 +38,16 @@ export class ResumeBuilderRepository {
 
       const resumes = await collection.find(filter).toArray();
       return resumes.map(resume => ({
-        ...resume,
-        id: resume._id.toString()
+        id: resume._id.toString(),
+        userId: resume.userId || '',
+        personalInfo: resume.personalInfo || { fullName: '', email: '' },
+        education: resume.education || [],
+        workExperience: resume.workExperience || [],
+        skills: resume.skills || [],
+        projects: resume.projects || [],
+        certifications: resume.certifications || [],
+        createdAt: resume.createdAt || new Date(),
+        updatedAt: resume.updatedAt || new Date()
       }));
     } catch (error) {
       console.error('Error retrieving resumes:', error);
@@ -53,7 +61,18 @@ export class ResumeBuilderRepository {
       const collection = connection.db.collection(this.collectionName);
 
       const resume = await collection.findOne({ _id: new ObjectId(id) });
-      return resume ? { ...resume, id: resume._id.toString() } : null;
+      return resume ? {
+        id: resume._id.toString(),
+        userId: resume.userId || '',
+        personalInfo: resume.personalInfo || { fullName: '', email: '' },
+        education: resume.education || [],
+        workExperience: resume.workExperience || [],
+        skills: resume.skills || [],
+        projects: resume.projects || [],
+        certifications: resume.certifications || [],
+        createdAt: resume.createdAt || new Date(),
+        updatedAt: resume.updatedAt || new Date()
+      } : null;
     } catch (error) {
       console.error('Error retrieving resume by ID:', error);
       throw error;
@@ -65,15 +84,29 @@ export class ResumeBuilderRepository {
       const connection = await this.connectionManager.connect();
       const collection = connection.db.collection(this.collectionName);
 
-      updates.updatedAt = new Date();
+      // Remove undefined fields
+      const cleanedResume = JSON.parse(JSON.stringify(updates));
+
+      cleanedResume.updatedAt = new Date();
 
       const result = await collection.findOneAndUpdate(
         { _id: new ObjectId(id) },
-        { $set: updates },
+        { $set: cleanedResume },
         { returnDocument: 'after' }
       );
 
-      return result ? { ...result, id: result._id.toString() } : null;
+      return result ? {
+        id: result.value._id.toString(),
+        userId: result.value.userId || '',
+        personalInfo: result.value.personalInfo || { fullName: '', email: '' },
+        education: result.value.education || [],
+        workExperience: result.value.workExperience || [],
+        skills: result.value.skills || [],
+        projects: result.value.projects || [],
+        certifications: result.value.certifications || [],
+        createdAt: result.value.createdAt || new Date(),
+        updatedAt: result.value.updatedAt || new Date()
+      } : null;
     } catch (error) {
       console.error('Error updating resume:', error);
       throw error;

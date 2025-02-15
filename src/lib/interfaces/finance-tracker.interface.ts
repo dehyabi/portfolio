@@ -3,7 +3,7 @@ export interface FinanceEntry {
   amount: number;
   category: string;
   date: Date | string;
-  description?: string;
+  description?: string;  // Optional description field
   type: 'income' | 'expense';
 }
 
@@ -13,4 +13,9 @@ export interface IFinanceTrackerRepository {
   update(id: string, entry: Partial<FinanceEntry>): Promise<boolean>;
   delete(id: string): Promise<boolean>;
   getAll(filter?: Partial<FinanceEntry>): Promise<FinanceEntry[]>;
+  createCategory(category: string): Promise<{
+    name: string;
+    existed: boolean;
+  }>;
+  getAllCategories(): Promise<string[]>;
 }

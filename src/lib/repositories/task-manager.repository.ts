@@ -1,4 +1,4 @@
-import { MongoClient, ObjectId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { MongoDBConnectionManager } from '../mongodb';
 import { Task } from '../interfaces/task-manager.interface';
 
@@ -53,6 +53,24 @@ export class TaskManagerRepository {
 
   async getAll(filter: Partial<Task> = {}): Promise<Task[]> {
     const collection = await this.getCollection();
-    return await collection.find(filter).toArray() as Task[];
+    const tasks = await collection.find(filter).toArray();
+    return tasks.map(task => {
+      // Ensure all required Task properties are present
+      return {
+        id: task._id.toString(),
+        title: task.title || '',
+        status: task.status || 'todo',
+        createdAt: task.createdAt instanceof Date ? task.createdAt : new Date(task.createdAt || Date.now()),
+        updatedAt: task.updatedAt instanceof Date ? task.updatedAt : new Date(task.updatedAt || Date.now()),
+        
+        // Optional properties with default values
+        description: task.description || '',
+        priority: task.priority || 'low',
+        projectId: task.projectId || '',
+        assignedTo: task.assignedTo || '',
+        tags: task.tags || [],
+        dueDate: task.dueDate ? (task.dueDate instanceof Date ? task.dueDate : new Date(task.dueDate)) : undefined
+      } as Task;
+    });
   }
 }
