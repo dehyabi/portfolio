@@ -1,0 +1,37 @@
+:root {
+  --bg-primary: #f4f4f8;
+  --bg-secondary: #ffffff;
+  --text-primary: #1a1a2a;
+  --text-secondary: #555566;
+  --accent-primary: #3a3aff;
+  --accent-secondary: #5a5aff;
+  --border-color: rgba(0, 0, 0, 0.1);
+}
+
+.futuristicLoader {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom scrollbar for browsers that support it */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
