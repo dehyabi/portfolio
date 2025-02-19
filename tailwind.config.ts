@@ -77,7 +77,7 @@ export default {
   },
   plugins: [
     // Optional: Add a plugin for custom utilities if needed
-    function({ addUtilities }) {
+    function({ addUtilities }: { addUtilities: (utilities: Record<string, Record<string, string | Record<string, string>>>) => void }) {
       const newUtilities = {
         '.task-transition': {
           transition: 'all 0.3s ease-in-out',

@@ -157,7 +157,10 @@ export const TaskList: React.FC = () => {
     });
   };
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: {
+    source: { index: number };
+    destination: { index: number } | null;
+  }) => {
     if (!result.destination) return;
     const reorderedTasks = Array.from(filteredAndSortedTasks);
     const [reorderedItem] = reorderedTasks.splice(result.source.index, 1);

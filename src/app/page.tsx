@@ -78,7 +78,7 @@ export default function HomePage() {
             ABOUT
           </h2>
           <p className="text-gray-300 leading-relaxed text-center max-w-4xl mx-auto">
-            A full-stack developer with three years of professional experience
+            A full-stack developer with 3+ years of professional experience
             specializing in web development, project management, agile
             methodology, and quality assurance testing. Adept at coordinating
             effectively with development teams, clients, and non-technical

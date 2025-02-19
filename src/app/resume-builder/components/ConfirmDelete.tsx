@@ -2,18 +2,22 @@ import React from "react";
 import { Trash2, X } from "lucide-react";
 
 interface ConfirmDeleteProps {
-  taskName: string;
+  taskName?: string;
   onConfirm: () => void;
   onCancel: () => void;
+  className?: string;
 }
 
-const ConfirmDelete: React.FC<ConfirmDeleteProps> = ({
+export const ConfirmDelete: React.FC<ConfirmDeleteProps> = ({
   taskName,
   onConfirm,
   onCancel,
+  className = "",
 }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm">
+    <div
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm ${className}`}
+    >
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 p-6 relative">
         <button
           onClick={onCancel}
@@ -28,12 +32,14 @@ const ConfirmDelete: React.FC<ConfirmDeleteProps> = ({
           </div>
 
           <h2 className="text-xl font-semibold text-gray-800 mb-3">
-            Delete Task
+            Delete Resume
           </h2>
 
           <p className="text-gray-600 mb-6 text-sm">
-            The task &quot;{taskName}&quot; will be permanently removed. This
-            action cannot be undone.
+            {taskName
+              ? `The resume "${taskName}" will be permanently removed.`
+              : "This resume will be permanently removed."}{" "}
+            This action cannot be undone.
           </p>
 
           <div className="flex space-x-3 w-full">
@@ -55,5 +61,3 @@ const ConfirmDelete: React.FC<ConfirmDeleteProps> = ({
     </div>
   );
 };
-
-export default ConfirmDelete;
