@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     description: "Personal portfolio showcasing skills and projects",
     type: "website",
     locale: "en_US",
-    images: ["/github.svg"],
+    images: ["/portfolio/github.svg"],
   },
   robots: {
     index: true,
