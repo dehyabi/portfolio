@@ -4,13 +4,6 @@
 
 A modern, responsive personal portfolio website showcasing my skills, experience, and projects, built with cutting-edge web technologies.
 
-## 🛠 Tech Stack
-
-- **Framework**: Next.js 15
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Deployment**: Vercel
-
 ## ✨ Features
 
 - Minimalist and futuristic design
@@ -53,9 +46,8 @@ A comprehensive personal finance management application designed to help users t
 - **Advanced Filtering**
 
   - Filter entries by type (income/expense)
-  - Amount range filtering
   - Date range selection
-  - Multi-category filtering
+  - Category filtering
 
 - **Pagination**
 
@@ -194,7 +186,7 @@ A comprehensive resume creation tool that provides a flexible, feature-rich plat
 - **State Management**: React Hooks and Context API
 - **Form Handling**: Dynamic, type-safe form management
 - **Styling**: Tailwind CSS for responsive design
-- **Deployment**: Vercel
+- **Deployment**: GitHub Page
 - **Storage**: Local Storage (Client-side)
 
 ### 🎯 User Experience
@@ -203,7 +195,7 @@ Empowers users to create detailed, professional resumes with maximum flexibility
 
 ## 🌐 Deployment
 
-- **Platform**: Vercel
+- **Platform**: GitHub Page
 - **Domain**: https://dehyabi.github.io
 
 ## 🔒 Security
