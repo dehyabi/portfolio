@@ -27,17 +27,17 @@ export default function HomePage() {
     {
       name: "Resume Builder",
       icon: FaFileLines,
-      link: "/resume-builder",
+      link: "/portfolio/resume-builder",
     },
     {
       name: "Task Manager",
       icon: FaListCheck,
-      link: "/task-manager",
+      link: "/portfolio/task-manager",
     },
     {
       name: "Finance Tracker",
       icon: FaChartSimple,
-      link: "/finance-tracker",
+      link: "/portfolio/finance-tracker",
     },
   ];
 
@@ -61,7 +61,7 @@ export default function HomePage() {
       <div className="w-full max-w-full space-y-8 bg-gray-800/50 backdrop-blur-lg p-10 shadow-2xl border border-gray-700/50 rounded-lg">
         <div className="flex justify-center mb-6">
           <Image
-            src="/dehya-qalbi.webp"
+            src="/portfolio/dehya-qalbi.webp"
             alt="Dehya Qalbi Profile"
             width={200}
             height={200}
