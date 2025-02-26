@@ -1,15 +1,37 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <title>Redirecting to Portfolio</title>
+    
+    <!-- Multiple Redirect Techniques -->
+    
+    <!-- Meta Refresh (Immediate Redirect) -->
     <meta http-equiv="refresh" content="0; url=https://dehyabi.github.io/portfolio/">
+    
+    <!-- Canonical Link for SEO -->
     <link rel="canonical" href="https://dehyabi.github.io/portfolio/">
+    
+    <!-- JavaScript Redirect (Fallback) -->
     <script>
-      window.location.href = "https://dehyabi.github.io/portfolio/";
+        // Multiple redirect methods
+        window.location.replace("https://dehyabi.github.io/portfolio/");
+        window.location.href = "https://dehyabi.github.io/portfolio/";
     </script>
-  </head>
-  <body>
-    <p>Redirecting to portfolio... <a href="https://dehyabi.github.io/portfolio/">Click here if not redirected</a>.</p>
-  </body>
+</head>
+<body>
+    <noscript>
+        <p>
+            Please click <a href="https://dehyabi.github.io/portfolio/">here</a> 
+            to be redirected to the portfolio.
+        </p>
+    </noscript>
+    
+    <script>
+        // Fallback redirect with timeout
+        setTimeout(() => {
+            window.location.href = "https://dehyabi.github.io/portfolio/";
+        }, 100);
+    </script>
+</body>
 </html>

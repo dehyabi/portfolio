@@ -1,0 +1,8 @@
+# Redirect root domain to portfolio
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^dehyabi\.github\.io$ [NC]
+RewriteRule ^$ https://dehyabi.github.io/portfolio/ [L,R=301]
+
+# Redirect all other requests to portfolio
+RewriteCond %{HTTP_HOST} ^dehyabi\.github\.io$ [NC]
+RewriteRule ^(.*)$ https://dehyabi.github.io/portfolio/ [L,R=301]
