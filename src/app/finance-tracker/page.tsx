@@ -74,6 +74,12 @@ export default function FinanceTrackerPage() {
     type: null,
   });
   const [editingCategory, setEditingCategory] = useState<string | null>(null);
+  const [filters, setFilters] = useState<{
+    category?: string;
+    type?: "income" | "expense";
+    startDate?: Date;
+    endDate?: Date;
+  }>({});
   const categorySearchInputRef = useRef<HTMLInputElement>(null);
 
   const isMobile = useIsMobile();
@@ -104,40 +110,90 @@ export default function FinanceTrackerPage() {
     });
   };
 
-  const fetchEntries = useCallback(async (page = 1) => {
-    try {
-      // Load entries from localStorage
-      const allEntries = loadEntries();
+  const applyFilters = useCallback(
+    (entries: FinanceEntry[]) => {
+      return entries.filter((entry) => {
+        // Convert entry date to UTC+7
+        const entryDate = new Date(entry.date);
+        const entryDateUTC7 = new Date(
+          entryDate.toLocaleString("en-US", { timeZone: "Asia/Bangkok" })
+        );
 
-      // Sort entries by timestamp (most recent first)
-      const sortedEntries = sortEntriesByNewestDate(allEntries);
+        // Convert filter dates to UTC+7
+        const startDateUTC7 = filters.startDate
+          ? new Date(
+              filters.startDate.toLocaleString("en-US", {
+                timeZone: "Asia/Bangkok",
+              })
+            )
+          : null;
+        const endDateUTC7 = filters.endDate
+          ? new Date(
+              filters.endDate.toLocaleString("en-US", {
+                timeZone: "Asia/Bangkok",
+              })
+            )
+          : null;
 
-      // Calculate pagination
-      const limit = 5; // Explicitly set to 5
-      const startIndex = (page - 1) * limit;
-      const endIndex = startIndex + limit;
+        // Set times to start and end of day in UTC+7
+        if (startDateUTC7) {
+          startDateUTC7.setHours(0, 0, 0, 0);
+        }
+        if (endDateUTC7) {
+          endDateUTC7.setHours(23, 59, 59, 999);
+        }
 
-      // Slice entries for the current page
-      const paginatedEntries = sortedEntries.slice(startIndex, endIndex);
-
-      // Update state
-      setEntries(paginatedEntries);
-
-      // Update pagination state
-      setPagination({
-        page,
-        limit,
-        total: allEntries.length,
-        totalPages: Math.ceil(allEntries.length / limit),
+        return (
+          (!filters.category || entry.category === filters.category) &&
+          (!filters.type || entry.type === filters.type) &&
+          (!startDateUTC7 || entryDateUTC7 >= startDateUTC7) &&
+          (!endDateUTC7 || entryDateUTC7 <= endDateUTC7)
+        );
       });
-    } catch (error) {
-      console.error("Error fetching entries:", error);
-      toast.error("Failed to load entries", {
-        position: "top-right",
-        duration: 3000,
-      });
-    }
-  }, []);
+    },
+    [filters]
+  );
+
+  const fetchEntries = useCallback(
+    async (page = 1) => {
+      try {
+        // Load entries from localStorage
+        const allEntries = loadEntries();
+
+        // Sort entries by timestamp (most recent first)
+        const sortedEntries = sortEntriesByNewestDate(allEntries);
+
+        // Apply filters
+        const filteredEntries = applyFilters(sortedEntries);
+
+        // Calculate pagination
+        const limit = 5; // Explicitly set to 5
+        const startIndex = (page - 1) * limit;
+        const endIndex = startIndex + limit;
+
+        // Slice entries for the current page
+        const paginatedEntries = filteredEntries.slice(startIndex, endIndex);
+
+        // Update state
+        setEntries(paginatedEntries);
+
+        // Update pagination state
+        setPagination({
+          page,
+          limit,
+          total: filteredEntries.length,
+          totalPages: Math.ceil(filteredEntries.length / limit),
+        });
+      } catch (error) {
+        console.error("Error fetching entries:", error);
+        toast.error("Failed to load entries", {
+          position: "top-right",
+          duration: 3000,
+        });
+      }
+    },
+    [applyFilters]
+  );
 
   useEffect(() => {
     fetchEntries();
@@ -715,6 +771,119 @@ export default function FinanceTrackerPage() {
     );
   };
 
+  const clearFilters = () => {
+    setFilters({});
+    fetchEntries();
+  };
+
+  const renderFilters = () => (
+    <div className="bg-gray-100 p-4 rounded-lg mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Category
+          </label>
+          <select
+            value={filters.category || ""}
+            onChange={(e) =>
+              setFilters((prev) => ({
+                ...prev,
+                category: e.target.value || undefined,
+              }))
+            }
+            className="w-full px-2 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-500 bg-white"
+          >
+            <option value="">All Categories</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Type
+          </label>
+          <select
+            value={filters.type || ""}
+            onChange={(e) =>
+              setFilters((prev) => ({
+                ...prev,
+                type: e.target.value as "income" | "expense" | undefined,
+              }))
+            }
+            className="w-full px-2 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-500 bg-white"
+          >
+            <option value="">All Types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Start Date
+          </label>
+          <input
+            type="date"
+            value={
+              filters.startDate
+                ? new Date(filters.startDate).toISOString().split("T")[0]
+                : ""
+            }
+            onChange={(e) =>
+              setFilters((prev) => ({
+                ...prev,
+                startDate: e.target.value
+                  ? new Date(e.target.value)
+                  : undefined,
+              }))
+            }
+            className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-500 bg-white"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            End Date
+          </label>
+          <input
+            type="date"
+            value={
+              filters.endDate
+                ? new Date(filters.endDate).toISOString().split("T")[0]
+                : ""
+            }
+            onChange={(e) =>
+              setFilters((prev) => ({
+                ...prev,
+                endDate: e.target.value ? new Date(e.target.value) : undefined,
+              }))
+            }
+            className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-500 bg-white"
+          />
+        </div>
+        {(filters.category ||
+          filters.type ||
+          filters.startDate ||
+          filters.endDate) && (
+          <div className="absolute top-[-5px] right-0 flex items-center">
+            <button
+              onClick={clearFilters}
+              className="text-gray-500 hover:text-red-500 transition-colors"
+              title="Clear Filters"
+            >
+              <XIcon size={24} />
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  useEffect(() => {
+    fetchEntries();
+  }, [filters, fetchEntries]);
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-xl overflow-hidden">
@@ -874,6 +1043,7 @@ export default function FinanceTrackerPage() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Recent Entries
             </h2>
+            {renderFilters()}
             <div className="overflow-x-auto">
               <table className="w-full bg-white shadow rounded-lg overflow-hidden">
                 <thead className="bg-gray-100">

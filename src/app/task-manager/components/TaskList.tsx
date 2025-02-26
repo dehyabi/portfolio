@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { Task } from "../types/Task";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -33,14 +33,6 @@ const ClientPaginationControls = ({
   goToPreviousPage: () => void;
   goToNextPage: () => void;
 }) => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) return null;
-
   return (
     <div className="flex justify-center items-center mt-6 space-x-4">
       <button
@@ -72,6 +64,7 @@ export const TaskList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const tasksPerPage = 5; // Number of tasks to display per page
 
+  // Filter and sort tasks
   const filteredAndSortedTasks = useMemo(() => {
     return tasks
       .filter((task) => filter === "all" || task.status === filter)
@@ -80,7 +73,7 @@ export const TaskList: React.FC = () => {
       );
   }, [tasks, filter, sortBy]);
 
-  // Pagination logic
+  // Paginate tasks
   const paginatedTasks = useMemo(() => {
     const startIndex = (currentPage - 1) * tasksPerPage;
     const endIndex = startIndex + tasksPerPage;
@@ -89,6 +82,7 @@ export const TaskList: React.FC = () => {
 
   const totalPages = Math.ceil(filteredAndSortedTasks.length / tasksPerPage);
 
+  // Add a new task
   const addTask = (task: Task) => {
     const newTask = {
       ...task,
@@ -98,16 +92,15 @@ export const TaskList: React.FC = () => {
     };
     setTasks([...tasks, newTask]);
     setEditingTask(undefined);
-    // Reset to first page when a new task is added
-    setCurrentPage(1);
+    setCurrentPage(1); // Reset to first page when a new task is added
 
-    // Add success toast with responsive positioning
     toast.success("Task created successfully!", {
       position: "top-right",
       duration: 3000,
     });
   };
 
+  // Update an existing task
   const updateTask = (updatedTask: Task) => {
     setTasks(
       tasks.map((t) =>
@@ -121,13 +114,13 @@ export const TaskList: React.FC = () => {
     );
     setEditingTask(undefined);
 
-    // Add success toast with responsive positioning
     toast.success("Task updated successfully!", {
       position: "top-right",
       duration: 3000,
     });
   };
 
+  // Delete a task
   const deleteTask = (id: string) => {
     const taskToDelete = tasks.find((t) => t.id === id);
 
@@ -142,32 +135,28 @@ export const TaskList: React.FC = () => {
     setTasks(tasks.filter((t) => t.id !== id));
 
     // Adjust current page if the last task on the current page is deleted
-    if (
-      paginatedTasks.length === 1 &&
-      currentPage > 1 &&
-      currentPage > totalPages
-    ) {
+    if (paginatedTasks.length === 1 && currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
 
-    // Add success toast with responsive positioning
     toast.success("Task deleted successfully!", {
       position: "top-right",
       duration: 3000,
     });
   };
 
+  // Handle drag-and-drop reordering
   const onDragEnd = (result: {
     source: { index: number };
     destination: { index: number } | null;
   }) => {
     if (!result.destination) return;
+
     const reorderedTasks = Array.from(filteredAndSortedTasks);
     const [reorderedItem] = reorderedTasks.splice(result.source.index, 1);
     reorderedTasks.splice(result.destination.index, 0, reorderedItem);
     setTasks(reorderedTasks);
 
-    // Add success toast with responsive positioning
     toast.success("Task reordered successfully!", {
       position: "top-right",
       duration: 3000,
@@ -187,38 +176,29 @@ export const TaskList: React.FC = () => {
     }
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
-      {/* Add Toaster component for toast notifications */}
       <Toaster
         position="top-right"
         toastOptions={{
           success: {
             style: {
-              background: "#E6F3E6", // Very light green
-              color: "#2E7D32", // Dark green text
-              border: "1px solid #4CAF50", // Subtle green border
+              background: "#E6F3E6",
+              color: "#2E7D32",
+              border: "1px solid #4CAF50",
             },
           },
           error: {
             style: {
-              background: "#FFEBEE", // Very light red
-              color: "#D32F2F", // Dark red text
-              border: "1px solid #F44336", // Subtle red border
+              background: "#FFEBEE",
+              color: "#D32F2F",
+              border: "1px solid #F44336",
             },
           },
-          // Default style for neutral toasts
           style: {
-            background: "#F5F5F5", // Light gray
-            color: "#333", // Dark gray text
-            border: "1px solid #E0E0E0", // Subtle border
+            background: "#F5F5F5",
+            color: "#333",
+            border: "1px solid #E0E0E0",
           },
         }}
       />
@@ -256,7 +236,7 @@ export const TaskList: React.FC = () => {
                 <option value="updatedAt">Updated Date</option>
               </select>
             </div>
-            {editingTask === undefined && (
+            {!editingTask && (
               <button
                 onClick={() => setEditingTask({} as Task)}
                 className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg transition-all transform hover:-translate-y-1 shadow-lg text-sm sm:text-base hover:from-blue-600 hover:to-purple-700 border border-transparent"
@@ -266,6 +246,7 @@ export const TaskList: React.FC = () => {
             )}
           </div>
 
+          {/* Show TaskForm when editing or adding a task */}
           {editingTask !== undefined && (
             <TaskForm
               task={editingTask}
@@ -274,65 +255,66 @@ export const TaskList: React.FC = () => {
             />
           )}
 
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="tasks">
-              {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  className="space-y-4"
-                >
-                  {filteredAndSortedTasks.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-8 sm:py-12 text-center">
-                      <Clipboard className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mb-2 sm:mb-4" />
-                      <p className="text-lg sm:text-xl text-gray-600 font-semibold mb-1 sm:mb-2">
-                        No Tasks Yet
-                      </p>
-                      <p className="text-sm sm:text-base text-gray-500 mb-4 sm:mb-6">
-                        Get started by creating your first task
-                      </p>
-                    </div>
-                  ) : (
-                    paginatedTasks.map((task, index) => (
-                      <Draggable
-                        key={task.id}
-                        draggableId={task.id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <TaskItem
-                              task={task}
-                              onEdit={() => {
-                                setEditingTask(task);
-                                scrollToTop();
-                              }}
-                              onDelete={() => deleteTask(task.id)}
-                            />
-                          </div>
-                        )}
-                      </Draggable>
-                    ))
-                  )}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+          {/* Show TaskList only when not editing or adding a task */}
+          {editingTask === undefined && (
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId="tasks">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="space-y-4"
+                  >
+                    {filteredAndSortedTasks.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center py-8 sm:py-12 text-center">
+                        <Clipboard className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mb-2 sm:mb-4" />
+                        <p className="text-lg sm:text-xl text-gray-600 font-semibold mb-1 sm:mb-2">
+                          No Tasks Yet
+                        </p>
+                        <p className="text-sm sm:text-base text-gray-500 mb-4 sm:mb-6">
+                          Get started by creating your first task
+                        </p>
+                      </div>
+                    ) : (
+                      paginatedTasks.map((task, index) => (
+                        <Draggable
+                          key={task.id}
+                          draggableId={task.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <TaskItem
+                                task={task}
+                                onEdit={() => setEditingTask(task)}
+                                onDelete={() => deleteTask(task.id)}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))
+                    )}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          )}
 
           {/* Pagination Controls */}
-          {filteredAndSortedTasks.length > tasksPerPage && (
-            <ClientPaginationControls
-              currentPage={currentPage}
-              totalPages={totalPages}
-              goToPreviousPage={goToPreviousPage}
-              goToNextPage={goToNextPage}
-            />
-          )}
+          {editingTask === undefined &&
+            filteredAndSortedTasks.length > tasksPerPage && (
+              <ClientPaginationControls
+                currentPage={currentPage}
+                totalPages={totalPages}
+                goToPreviousPage={goToPreviousPage}
+                goToNextPage={goToNextPage}
+              />
+            )}
         </div>
       </div>
     </div>

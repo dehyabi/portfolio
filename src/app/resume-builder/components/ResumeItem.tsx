@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Resume, ResumeItemProps } from "../types/resume";
 import jsPDF from "jspdf";
 import { PreviewResume } from "./PreviewResume";
@@ -9,6 +9,16 @@ export const ResumeItem: React.FC<
   ResumeItemProps & { onCopyResume?: (resume: Resume) => void }
 > = ({ resume, onEdit, onDelete, onCopyResume }) => {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Utility function to truncate long text
   const truncate = (text: string, maxLength: number = 100) => {
@@ -39,27 +49,45 @@ export const ResumeItem: React.FC<
 
   // PDF Download Handler
   const handleDownloadPDF = () => {
-    const doc = new jsPDF();
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    });
+
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
-
-    // Margins
     const margin = 15;
     let currentY = margin;
 
     // Fonts and Styling
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(16);
+    doc.setFontSize(12);
     doc.setTextColor(0, 0, 0);
 
-    // Check if content might exceed a single page
-    const maxContentHeight = pageHeight - 2 * margin;
+    // Helper function to add new page if needed
+    const checkPageBreak = (requiredSpace: number) => {
+      if (currentY + requiredSpace > pageHeight - margin) {
+        doc.addPage();
+        currentY = margin;
+      }
+    };
 
-    // Personal Info
-    doc.text(resume.personalInfo.fullName, margin, currentY);
+    // Title
+    doc.setFontSize(16);
+    doc.text(resume.title || "Resume", pageWidth / 2, currentY, {
+      align: "center",
+    });
     currentY += 10;
-    doc.setFontSize(10);
+
+    // Personal Information
+    doc.setFontSize(12);
+    checkPageBreak(20);
+    doc.text(`Name: ${resume.personalInfo.fullName}`, margin, currentY);
+    currentY += 7;
     doc.text(`Email: ${resume.personalInfo.email}`, margin, currentY);
+    currentY += 7;
+    doc.text(`Phone: ${resume.personalInfo.phone || "N/A"}`, margin, currentY);
     currentY += 7;
     doc.text(
       `Location: ${resume.personalInfo.location || "N/A"}`,
@@ -68,25 +96,30 @@ export const ResumeItem: React.FC<
     );
     currentY += 10;
 
-    // Summary
+    // Professional Summary
     if (resume.summary) {
-      doc.setFontSize(12);
+      checkPageBreak(20);
+      doc.setFontSize(14);
       doc.text("Professional Summary", margin, currentY);
       currentY += 7;
       doc.setFontSize(10);
-      doc.text(resume.summary, margin, currentY, {
-        maxWidth: pageWidth - 2 * margin,
-      });
+      doc.text(
+        doc.splitTextToSize(resume.summary, pageWidth - 2 * margin),
+        margin,
+        currentY
+      );
       currentY += 15;
     }
 
     // Education
     if (resume.education && resume.education.length > 0) {
-      doc.setFontSize(12);
+      checkPageBreak(20);
+      doc.setFontSize(14);
       doc.text("Education", margin, currentY);
       currentY += 7;
       doc.setFontSize(10);
       resume.education.forEach((edu) => {
+        checkPageBreak(20);
         doc.text(`${edu.institution} - ${edu.degree}`, margin, currentY);
         currentY += 7;
         doc.text(
@@ -97,22 +130,18 @@ export const ResumeItem: React.FC<
           currentY
         );
         currentY += 10;
-
-        // Add new page if content might exceed page height
-        if (currentY > maxContentHeight) {
-          doc.addPage();
-          currentY = margin;
-        }
       });
     }
 
     // Work Experience
     if (resume.workExperience && resume.workExperience.length > 0) {
-      doc.setFontSize(12);
+      checkPageBreak(20);
+      doc.setFontSize(14);
       doc.text("Work Experience", margin, currentY);
       currentY += 7;
       doc.setFontSize(10);
       resume.workExperience.forEach((work) => {
+        checkPageBreak(30);
         doc.text(`${work.company} - ${work.position}`, margin, currentY);
         currentY += 7;
         doc.text(`${work.startDate} - ${work.endDate}`, margin, currentY);
@@ -120,12 +149,6 @@ export const ResumeItem: React.FC<
         work.responsibilities.forEach((resp) => {
           doc.text(`• ${resp}`, margin + 5, currentY);
           currentY += 5;
-
-          // Add new page if content might exceed page height
-          if (currentY > maxContentHeight) {
-            doc.addPage();
-            currentY = margin;
-          }
         });
         currentY += 5;
       });
@@ -133,11 +156,166 @@ export const ResumeItem: React.FC<
 
     // Skills
     if (resume.skills && resume.skills.length > 0) {
-      doc.setFontSize(12);
+      checkPageBreak(20);
+      doc.setFontSize(14);
       doc.text("Skills", margin, currentY);
       currentY += 7;
       doc.setFontSize(10);
       doc.text(resume.skills.join(" • "), margin, currentY);
+      currentY += 10;
+    }
+
+    // Certifications
+    if (resume.certifications && resume.certifications.length > 0) {
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.text("Certifications", margin, currentY);
+      currentY += 7;
+      doc.setFontSize(10);
+      resume.certifications.forEach((cert) => {
+        checkPageBreak(20);
+        doc.text(`${cert.name}`, margin, currentY);
+        currentY += 7;
+        doc.text(
+          `Issued by: ${cert.issuingOrganization} | Date: ${cert.date}`,
+          margin,
+          currentY
+        );
+        currentY += 10;
+      });
+    }
+
+    // Projects
+    if (resume.projects && resume.projects.length > 0) {
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.text("Projects", margin, currentY);
+      currentY += 7;
+      doc.setFontSize(10);
+      resume.projects.forEach((project) => {
+        checkPageBreak(30);
+        doc.text(`${project.name}`, margin, currentY);
+        currentY += 7;
+        if (project.url) {
+          doc.text(`URL: ${project.url}`, margin, currentY);
+          currentY += 7;
+        }
+        doc.text(`${project.startDate} - ${project.endDate}`, margin, currentY);
+        currentY += 7;
+        doc.text(
+          doc.splitTextToSize(project.description, pageWidth - 2 * margin),
+          margin,
+          currentY
+        );
+        currentY += 10;
+      });
+    }
+
+    // Achievements
+    if (resume.achievements && resume.achievements.length > 0) {
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.text("Achievements", margin, currentY);
+      currentY += 7;
+      doc.setFontSize(10);
+      resume.achievements.forEach((achievement) => {
+        doc.text(`• ${achievement}`, margin, currentY);
+        currentY += 7;
+      });
+      currentY += 5;
+    }
+
+    // Volunteer Experience
+    if (resume.volunteerExperience && resume.volunteerExperience.length > 0) {
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.text("Volunteer Experience", margin, currentY);
+      currentY += 7;
+      doc.setFontSize(10);
+      resume.volunteerExperience.forEach((volunteer) => {
+        checkPageBreak(30);
+        doc.text(
+          `${volunteer.organization} - ${volunteer.position}`,
+          margin,
+          currentY
+        );
+        currentY += 7;
+        doc.text(
+          `${volunteer.startDate} - ${volunteer.endDate}`,
+          margin,
+          currentY
+        );
+        currentY += 7;
+        volunteer.responsibilities.forEach((resp) => {
+          doc.text(`• ${resp}`, margin + 5, currentY);
+          currentY += 5;
+        });
+        currentY += 5;
+      });
+    }
+
+    // Relevant Tools
+    if (resume.relevantTools && resume.relevantTools.length > 0) {
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.text("Relevant Tools", margin, currentY);
+      currentY += 7;
+      doc.setFontSize(10);
+      doc.text(resume.relevantTools.join(" • "), margin, currentY);
+      currentY += 10;
+    }
+
+    // Relevant Technologies
+    if (resume.relevantTechnologies && resume.relevantTechnologies.length > 0) {
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.text("Relevant Technologies", margin, currentY);
+      currentY += 7;
+      doc.setFontSize(10);
+      doc.text(resume.relevantTechnologies.join(" • "), margin, currentY);
+      currentY += 10;
+    }
+
+    // Languages
+    if (resume.languages && resume.languages.length > 0) {
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.text("Languages", margin, currentY);
+      currentY += 7;
+      doc.setFontSize(10);
+      doc.text(resume.languages.join(" • "), margin, currentY);
+      currentY += 10;
+    }
+
+    // Hobbies
+    if (resume.hobbies && resume.hobbies.length > 0) {
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.text("Hobbies", margin, currentY);
+      currentY += 7;
+      doc.setFontSize(10);
+      doc.text(resume.hobbies.join(" • "), margin, currentY);
+      currentY += 10;
+    }
+
+    // References
+    if (resume.references && resume.references.length > 0) {
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.text("References", margin, currentY);
+      currentY += 7;
+      doc.setFontSize(10);
+      resume.references.forEach((ref) => {
+        checkPageBreak(30);
+        doc.text(`${ref.name}`, margin, currentY);
+        currentY += 7;
+        doc.text(`${ref.title}, ${ref.company}`, margin, currentY);
+        currentY += 7;
+        doc.text(`Phone: ${ref.phone}`, margin, currentY);
+        currentY += 7;
+        doc.text(`Email: ${ref.email}`, margin, currentY);
+        currentY += 10;
+      });
     }
 
     // Save the PDF
@@ -195,39 +373,41 @@ export const ResumeItem: React.FC<
           opacity-0 group-hover:opacity-100 
           transition-opacity duration-300 
           bg-white/80 backdrop-blur-sm 
-          rounded-full p-1
+          rounded-full p-1 border
         "
         >
           {/* Preview Button */}
-          <button
-            onClick={() => setIsPreviewOpen(true)}
-            className="text-gray-500 hover:text-blue-600 
-              transition-colors 
-              bg-gray-100/50 hover:bg-blue-100/50 
-              rounded-full p-1.5"
-            title="Preview Resume"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {!isMobile && (
+            <button
+              onClick={() => setIsPreviewOpen(true)}
+              className="text-gray-500 hover:text-blue-600 
+                transition-colors 
+                bg-gray-100/50 hover:bg-blue-100/50 
+                rounded-full p-1.5"
+              title="Preview Resume"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-              />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+            </button>
+          )}
 
           {/* Copy Resume Button */}
           <button
