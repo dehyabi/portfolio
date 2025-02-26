@@ -1,0 +1,24 @@
+{
+    "name": "Dehya Qalbi Portfolio",
+    "short_name": "Dehya Qalbi",
+    "icons": [
+        {
+            "src": "/portfolio/favicons/favicon-16x16.png",
+            "sizes": "16x16",
+            "type": "image/png"
+        },
+        {
+            "src": "/portfolio/favicons/favicon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "/portfolio/favicons/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone"
+}

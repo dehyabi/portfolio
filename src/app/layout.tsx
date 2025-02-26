@@ -21,16 +21,29 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Dehya Qalbi" }],
   icons: {
-    icon: "/github.svg",
-    apple: "/github.svg",
+    icon: [
+      { url: "/portfolio/favicons/favicon.ico" },
+      {
+        url: "/portfolio/favicons/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/portfolio/favicons/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+    ],
+    apple: "/portfolio/favicons/apple-touch-icon.png",
   },
   openGraph: {
     title: "Dehya Qalbi - Full-Stack Developer",
     description: "Personal portfolio showcasing skills and projects",
     type: "website",
     locale: "en_US",
-    images: ["/portfolio/github.svg"],
+    images: ["/portfolio/favicons/og-image.png"],
   },
+  manifest: "/portfolio/site.webmanifest",
   robots: {
     index: true,
     follow: true,
