@@ -36,15 +36,6 @@ A modern, responsive personal portfolio website showcasing my skills, experience
 
 This portfolio contains three sophisticated web applications demonstrating modern web development practices and user-centric design.
 
-## 🔧 Tech Stack
-
-- **Frontend**: Next.js 14 (React)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **State Management**: React Hooks
-- **Deployment**: Vercel
-- **Storage**: Local Storage (Client-side)
-
 ## 1. 💰 Finance Tracker
 
 ### 🌟 Project Description
@@ -151,78 +142,69 @@ interface Task {
 
 ### 🌟 Project Description
 
-An intelligent resume creation tool that guides users through building professional, well-structured resumes with real-time preview and export capabilities.
+A comprehensive resume creation tool that provides a flexible, feature-rich platform for crafting professional resumes with extensive customization options.
 
 ### 🔑 Key Features
 
-- **Resume Sections**
+- **Comprehensive Resume Sections**
 
   - Personal Information
-  - Education
+    - Full Name
+    - Contact Details (Email, Phone)
+    - Location
+  - Professional Summary
+  - Education History
+    - Institutions
+    - Degrees
+    - Academic Dates
+    - Optional GPA
   - Work Experience
-  - Skills
-  - Projects
-  - Certifications
+    - Companies
+    - Positions
+    - Detailed Responsibilities
+    - Employment Dates
+  - Skills Showcase
+  - Optional Advanced Sections:
+    - Certifications
+    - Projects
+    - Achievements
+    - Volunteer Experience
+    - Relevant Tools & Technologies
+    - Languages
+    - Hobbies
+    - Professional References
 
 - **Dynamic Form Management**
 
+  - Fully customizable resume structure
   - Add/remove sections dynamically
-  - Inline editing
-  - Drag-and-drop section reordering
+  - Flexible entry management
+  - Inline editing with validation
 
-- **Preview Functionality**
-
-  - Real-time resume preview
-  - Instant visual feedback
+- **Export and Customization**
+  - Comprehensive PDF generation
+  - Multiple resume templates
   - Responsive design
+  - Instant preview
 
-- **Export Options**
-  - PDF generation
-  - Printable format
-  - Shareable link generation
+### 🛠 Technical Implementation
 
-### 🛠 Technical Highlights
+- **Data Model**: Robust TypeScript interface with optional fields
+- **Frontend**: Next.js 15 with TypeScript
+- **State Management**: React Hooks and Context API
+- **Form Handling**: Dynamic, type-safe form management
+- **Styling**: Tailwind CSS for responsive design
+- **Deployment**: Vercel
+- **Storage**: Local Storage (Client-side)
 
-- Local storage for draft saving
-- Form state management
-- Dynamic component rendering
-- Comprehensive validation
+### 🎯 User Experience
 
-### 📊 Data Model
-
-```typescript
-interface ResumeData {
-  personalInfo: {
-    name: string;
-    email: string;
-    phone: string;
-    location: string;
-  };
-  education: Array<{
-    institution: string;
-    degree: string;
-    graduationDate: Date;
-  }>;
-  workExperience: Array<{
-    company: string;
-    position: string;
-    startDate: Date;
-    endDate?: Date;
-    responsibilities: string[];
-  }>;
-  skills: string[];
-  projects: Array<{
-    name: string;
-    description: string;
-    technologies: string[];
-  }>;
-}
-```
+Empowers users to create detailed, professional resumes with maximum flexibility. Supports everything from basic job applications to comprehensive professional portfolios.
 
 ## 🌐 Deployment
 
 - **Platform**: Vercel
-- **Domain**: [Your Portfolio Domain]
+- **Domain**: https://dehyabi.github.io
 
 ## 🔒 Security
 
