@@ -12,6 +12,39 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
+  output: 'export', 
+  distDir: 'out',
+  images: {
+    unoptimized: true 
+  },
+  basePath: '/portfolio',
+  assetPrefix: '/portfolio/',
+  trailingSlash: true,
+  
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/portfolio',
+        permanent: true
+      },
+      {
+        source: '/index',
+        destination: '/portfolio',
+        permanent: true
+      }
+    ];
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: '/',
+        destination: '/portfolio'
+      }
+    ];
+  },
+
   webpack: (config, { isServer }) => {
     config.resolve.alias['@'] = path.resolve(__dirname, 'src');
     config.resolve.alias['@/styles'] = path.resolve(__dirname, 'src/styles');
@@ -25,22 +58,9 @@ const nextConfig = {
 
     return config;
   },
-  output: 'export', 
-  images: {
-    unoptimized: true 
-  },
-  basePath: '/portfolio',
-  assetPrefix: '/portfolio/',
-  trailingSlash: true,
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/portfolio',
-        permanent: true
-      }
-    ]
-  }
-}
+  
+  reactStrictMode: true,
+  swcMinify: true,
+};
 
 export default nextConfig;
